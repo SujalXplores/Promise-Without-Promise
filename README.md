@@ -6,9 +6,9 @@ The Promise object represents the eventual completion (or failure) of an asynchr
 
 A Promise is in one of these states:
 
-pending: initial state, neither fulfilled nor rejected.
-fulfilled: meaning that the operation was completed successfully.
-rejected: meaning that the operation failed.
+pending: initial state, neither fulfilled nor rejected.<br>
+fulfilled: meaning that the operation was completed successfully.<br>
+rejected: meaning that the operation failed.<br>
 
 As the Promise.prototype.then() and Promise.prototype.catch() methods return promises, they can be chained.
 
