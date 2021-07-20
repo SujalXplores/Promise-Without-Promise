@@ -1,7 +1,6 @@
 class MyPromise {
   constructor(callback) {
-    this.allPromises = [];
-
+    this.promiseChain = [];
     this.handleError = () => {};
 
     this.onResolve = this.onResolve.bind(this);
@@ -20,7 +19,9 @@ class MyPromise {
     return this;
   }
 
-  onResolve(data) {
+  onResolve(value) {
+    let storedValue = value;
+
     try {
       this.promiseChain.forEach((nextFunction) => {
         storedValue = nextFunction(storedValue);
@@ -36,11 +37,11 @@ class MyPromise {
   }
 }
 
-const onClickHandler = () => {
+function onClickHandler() {
   fakeApiBackend = () => {
     const user = {
       username: "Sujal Shah",
-      favoriteNumber: 1,
+      favoriteNumber: 42,
       profile: "https://gitconnected.com/SujalShah3234",
     };
 
@@ -64,12 +65,13 @@ const onClickHandler = () => {
     return new MyPromise((resolve, reject) => {
       setTimeout(() => {
         const apiResponse = fakeApiBackend();
+
         if (apiResponse.statusCode >= 400) {
           reject(apiResponse);
         } else {
           resolve(apiResponse.data);
         }
-      }, 5000);
+      }, 3000);
     });
   };
 
@@ -97,4 +99,4 @@ const onClickHandler = () => {
     .catch((error) => {
       console.log(error.message);
     });
-};
+}
