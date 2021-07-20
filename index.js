@@ -1,4 +1,8 @@
+'use strict';
+
 class MyPromise {
+  promiseChain = [];
+
   constructor(callback) {
     this.promiseChain = [];
     this.handleError = () => {};
@@ -38,63 +42,44 @@ class MyPromise {
 }
 
 function onClickHandler() {
-  fakeApiBackend = () => {
-    const user = {
-      username: "Sujal Shah",
-      favoriteNumber: 42,
-      profile: "https://gitconnected.com/SujalShah3234",
-    };
-
-    if (Math.random() > 0.05) {
-      return {
-        data: user,
-        statusCode: 200,
-      };
-    } else {
-      const error = {
-        statusCode: 404,
-        message: "Could not find user",
-        error: "Not Found",
-      };
-
-      return error;
-    }
-  };
-
   const makeApiCall = () => {
     return new MyPromise((resolve, reject) => {
       setTimeout(() => {
-        const apiResponse = fakeApiBackend();
-
-        if (apiResponse.statusCode >= 400) {
-          reject(apiResponse);
+        if (Math.random() < 0.05) {
+          const user = {
+            name: 'Sujal',
+            surname: 'Shah',
+          };
+          resolve(user);
         } else {
-          resolve(apiResponse.data);
+          const err = {
+            errorCode: '404',
+            message: 'User not found',
+          };
+          reject(err);
         }
-      }, 3000);
+      }, 1000);
     });
   };
 
   makeApiCall()
     .then((user) => {
-      console.log("In the first .then()");
+      console.log('1️⃣ In the first .then()');
       return user;
     })
     .then((user) => {
-      console.log(
-        `User ${user.username}'s favorite number is ${user.favoriteNumber}`
-      );
+      console.log(`2️⃣ User ${user.name}`);
       return user;
     })
     .then((user) => {
-      console.log("The previous .then() told you the favoriteNumber");
-      return user.profile;
+      console.log('3️⃣ The previous .then() told you your name');
+      return user.surname;
     })
-    .then((profile) => {
-      console.log(`The profile URL is ${profile}`);
+    .then((surname) => {
+      console.log(`4️⃣ The surname is ${surname}`);
     })
     .then(() => {
-      console.log("This is the last then()");
+      console.log('5️⃣ Inside last then()');
     })
     .catch((error) => {
       console.log(error.message);
