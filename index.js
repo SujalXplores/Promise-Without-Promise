@@ -1,6 +1,7 @@
 class MyPromise {
   constructor(callback) {
-    this.promiseChain = [];
+    this.allPromises = [];
+
     this.handleError = () => {};
 
     this.onResolve = this.onResolve.bind(this);
@@ -19,9 +20,7 @@ class MyPromise {
     return this;
   }
 
-  onResolve(value) {
-    let storedValue = value;
-
+  onResolve(data) {
     try {
       this.promiseChain.forEach((nextFunction) => {
         storedValue = nextFunction(storedValue);
